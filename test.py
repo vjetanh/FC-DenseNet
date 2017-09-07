@@ -6,7 +6,7 @@ import theano
 from lasagne.layers import get_output
 
 from data_loader import load_data
-from  metrics import numpy_metrics, theano_metrics
+from metrics import numpy_metrics, theano_metrics
 
 
 def test(config_path, weight_path):
@@ -29,9 +29,9 @@ def test(config_path, weight_path):
     batch_size = 10
     _, _, iterator = load_data(cf.dataset, batch_size=batch_size)
 
-    n_classes = iterator.get_n_classes()
+    n_classes = iterator.get_n_classes
     _, n_rows, n_cols = iterator.data_shape
-    void_labels = iterator.get_void_labels()
+    void_labels = iterator.get_void_labels
 
     ###################
     #  Compile model  #
@@ -42,13 +42,16 @@ def test(config_path, weight_path):
     net.restore(weight_path)
 
     # Compile test functions
-    prediction = get_output(net.output_layer, deterministic=True, batch_norm_use_averages=False)
-    metrics = theano_metrics(prediction, net.target_var, n_classes, void_labels)
+    prediction = get_output(
+        net.output_layer, deterministic=True, batch_norm_use_averages=False)
+    metrics = theano_metrics(
+        prediction, net.target_var, n_classes, void_labels)
 
     print('Compiling functions')
     start_time_compilation = time.time()
     f = theano.function([net.input_var, net.target_var], metrics)
-    print('Compilation took {:.3f} seconds'.format(time.time() - start_time_compilation))
+    print('Compilation took {:.3f} seconds'.format(
+        time.time() - start_time_compilation))
 
     ###################
     #     Main loop   #
@@ -76,8 +79,8 @@ def test(config_path, weight_path):
 
     for label, jacc in zip(labels, I_tot / U_tot):
         print('{} :\t{:.4f}'.format(label, jacc))
-    print 'Mean Jaccard', np.mean(I_tot / U_tot)
-    print 'Global accuracy', acc_tot / n_imgs
+    print('Mean Jaccard', np.mean(I_tot / U_tot))
+    print('Global accuracy', acc_tot / n_imgs)
 
     # To visualize an image : np.reshape(np.argmax(g(X), axis = 1), (360, 480))
     # with g = theano.function([net.input_var], prediction)

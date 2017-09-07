@@ -98,7 +98,8 @@ class Network():
         for i in range(n_pool):
             # Transition Up ( Upsampling + concatenation with the skip connection)
             n_filters_keep = growth_rate * n_layers_per_block[n_pool + i]
-            stack = TransitionUp(skip_connection_list[i], block_to_upsample, n_filters_keep)
+            stack = TransitionUp(
+                skip_connection_list[i], block_to_upsample, n_filters_keep)
 
             # Dense Block
             block_to_upsample = []
@@ -123,7 +124,8 @@ class Network():
         """ Load the weights """
 
         with np.load(path) as f:
-            saved_params_values = [f['arr_%d' % i] for i in range(len(f.files))]
+            saved_params_values = [f['arr_%d' % i]
+                                   for i in range(len(f.files))]
         set_all_param_values(self.output_layer, saved_params_values)
 
     def summary(self, light=False):
@@ -138,12 +140,15 @@ class Network():
 
         layer_list = filter(filter_function, layer_list)
         output_shape_list = map(get_output_shape, layer_list)
-        layer_name_function = lambda s: str(s).split('.')[3].split('Layer')[0]
+
+        def layer_name_function(s): return str(
+            s).split('.')[3].split('Layer')[0]
 
         if not light:
             print('-' * 75)
-            print 'Warning : all the layers are not displayed \n'
-            print '    {:<15} {:<20} {:<20}'.format('Layer', 'Output shape', 'W shape')
+            print('Warning : all the layers are not displayed \n')
+            print('    {:<15} {:<20} {:<20}'.format(
+                'Layer', 'Output shape', 'W shape'))
 
             for i, (layer, output_shape) in enumerate(zip(layer_list, output_shape_list)):
                 if hasattr(layer, 'W'):
@@ -151,13 +156,16 @@ class Network():
                 else:
                     input_shape = ''
 
-                print '{:<3} {:<15} {:<20} {:<20}'.format(i + 1, layer_name_function(layer), output_shape, input_shape)
+                print('{:<3} {:<15} {:<20} {:<20}'.format(
+                    i + 1, layer_name_function(layer), output_shape, input_shape))
                 if isinstance(layer, Pool2DLayer) | isinstance(layer, Deconv2DLayer):
                     print('')
 
-        print '\nNumber of Convolutional layers : {}'.format(
-            len(filter(lambda x: isinstance(x, Conv2DLayer) | isinstance(x, Deconv2DLayer), layer_list)))
-        print 'Number of parameters : {}'.format(np.sum(map(np.size, get_all_param_values(self.output_layer))))
+        print('\nNumber of Convolutional layers : {}'.format(
+            len(filter(lambda x: isinstance(x, Conv2DLayer) | isinstance(x, Deconv2DLayer), layer_list))))
+
+        print('Number of parameters : {}'.format(
+            np.sum(map(np.size, get_all_param_values(self.output_layer)))))
         print('-' * 75)
 
 
