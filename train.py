@@ -71,7 +71,7 @@ def train(cf):
     void_labels = train_iter.get_void_labels
 
     print('Number of images : train : {}, val : {}, test : {}'.format(
-        train_iter.get_n_samples(), val_iter.get_n_samples(), test_iter.get_n_samples()))
+        train_iter.get_n_samples, val_iter.get_n_samples, test_iter.get_n_samples))
 
     ###################
     #   Build model   #
@@ -130,7 +130,7 @@ def train(cf):
 
     if hasattr(cf, 'pretrained_model'):
         print('Validation score before training')
-        print (batch_loop(val_iter, val_fn, 0, 'val', {'val': init_history()}))
+        print(batch_loop(val_iter, val_fn, 0, 'val', {'val': init_history()}))
 
     # Training main loop
     print('-' * 30)
@@ -179,7 +179,7 @@ def train(cf):
 
             # Test
             print('Training ends\nTest')
-            if test_iter.get_n_samples() == 0:
+            if test_iter.get_n_samples == 0:
                 print ('No test set')
             else:
                 history = batch_loop(test_iter, val_fn, epoch, 'test', history)
@@ -204,7 +204,7 @@ def initiate_training(cf):
     if not os.path.exists(cf.savepath):
         os.makedirs(cf.savepath)
     else:
-        stop = raw_input('\033[93m The following folder already exists {}. '
+        stop = input('\033[93m The following folder already exists {}. '
                          'Do you want to overwrite it ? ([y]/n) \033[0m'.format(cf.savepath))
         if stop == 'n':
             return

@@ -67,8 +67,8 @@ def train(cf):
                                                 horizontal_flip=True,
                                                 )
 
-    n_classes = train_iter.get_n_classes()
-    void_labels = train_iter.get_void_labels()
+    n_classes = train_iter.get_n_classes
+    void_labels = train_iter.get_void_labels
 
     print('Number of images : train : {}, val : {}, test : {}'.format(
         train_iter.get_n_samples(), val_iter.get_n_samples(), test_iter.get_n_samples()))
@@ -204,7 +204,7 @@ def initiate_training(cf):
     if not os.path.exists(cf.savepath):
         os.makedirs(cf.savepath)
     else:
-        stop = raw_input('\033[93m The following folder already exists {}. '
+        stop = input('\033[93m The following folder already exists {}. '
                          'Do you want to overwrite it ? ([y]/n) \033[0m'.format(cf.savepath))
         if stop == 'n':
             return

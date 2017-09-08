@@ -79,6 +79,10 @@ class CamvidDataset(ThreadedDataset):
         return self.nbatches
 
     @property
+    def get_n_samples(selfs):
+        return selfs.nsamples
+
+    @property
     def prefix_list(self):
         if self._prefix_list is None:
             # Create a list of prefix out of the number of requested videos
