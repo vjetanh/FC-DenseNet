@@ -157,12 +157,12 @@ class Network():
                     input_shape = ''
 
                 print('{:<3} {:<15} {:<20} {:<20}'.format(
-                    i + 1, layer_name_function(layer), output_shape, input_shape))
+                    i + 1, layer_name_function(layer), str(output_shape), str(input_shape)))
                 if isinstance(layer, Pool2DLayer) | isinstance(layer, Deconv2DLayer):
                     print('')
 
         print('\nNumber of Convolutional layers : {}'.format(
-            len(filter(lambda x: isinstance(x, Conv2DLayer) | isinstance(x, Deconv2DLayer), layer_list))))
+            len(list(filter(lambda x: isinstance(x, Conv2DLayer) | isinstance(x, Deconv2DLayer), layer_list)))))
 
         print('Number of parameters : {}'.format(
             np.sum(map(np.size, get_all_param_values(self.output_layer)))))
