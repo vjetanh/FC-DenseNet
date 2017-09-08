@@ -517,11 +517,13 @@ class ThreadedDataset(object):
                             continue  # fetch the next element
                         if (isinstance(data_batch[1], type(BaseException)) or
                                 isinstance(data_batch[1], BaseException)):
-                            raise(data_batch[0], data_batch[1], data_batch[2])
+                            # raise Exception(
+                            #     data_batch[0], data_batch[1], data_batch[2])
+                            raise Exception(str(data_batch))
                     done = True
                     # Refill the names queue, if we still have batches
                     try:
-                        name_batch = self.names_batches.next()
+                        name_batch = next(self.names_batches)
                         self.names_queue.put(name_batch)
                     except StopIteration:
                         pass
@@ -681,10 +683,10 @@ class ThreadedDataset(object):
             ret['data'], ret['labels'] = seq_x, seq_y
             ret['raw_data'] = raw_data
             # Append the data of this batch to the minibatch array
-            for k, v in ret.iteritems():
+            for k, v in ret.items():
                 batch_ret.setdefault(k, []).append(v)
 
-        for k, v in batch_ret.iteritems():
+        for k, v in batch_ret.items():
             try:
                 batch_ret[k] = np.array(v)
             except ValueError:

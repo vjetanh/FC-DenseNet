@@ -8,6 +8,13 @@ from lasagne.layers import get_output
 from data_loader import load_data
 from metrics import numpy_metrics, theano_metrics
 
+from PIL import Image
+import matplotlib
+from matplotlib import pyplot as plt
+
+# matplotlib.use('TkAgg')
+# theano.config.optimizer = "None"
+
 
 def test(config_path, weight_path):
     """
@@ -49,7 +56,9 @@ def test(config_path, weight_path):
 
     print('Compiling functions')
     start_time_compilation = time.time()
-    f = theano.function([net.input_var, net.target_var], metrics)
+    f = theano.function([net.input_var, net.target_var],
+                        metrics, mode=theano.Mode(optimizer="fast_compile"))
+    g = theano.function([net.input_var], prediction)
     print('Compilation took {:.3f} seconds'.format(
         time.time() - start_time_compilation))
 
@@ -57,13 +66,14 @@ def test(config_path, weight_path):
     #     Main loop   #
     ###################
 
-    n_batches = iterator.get_n_batches()
+    n_batches = iterator.get_n_batches
     I_tot = np.zeros(n_classes)
     U_tot = np.zeros(n_classes)
     acc_tot = 0.
     n_imgs = 0
     for i in range(n_batches):
-        X, Y = iterator.next()
+        next_batch = iterator.next()
+        X, Y = next_batch['data'], next_batch['labels']
         I, U, acc = f(X, Y[:, None, :, :])
         I_tot += I
         U_tot += U
@@ -84,7 +94,8 @@ def test(config_path, weight_path):
 
     # To visualize an image : np.reshape(np.argmax(g(X), axis = 1), (360, 480))
     # with g = theano.function([net.input_var], prediction)
-
+    plt.imshow(np.reshape(np.argmax(g(X), axis=1), (360, 480)), interpolation='nearest')
+    plt.show()
 
 if __name__ == '__main__':
     config_path = 'config/FC-DenseNet103.py'
