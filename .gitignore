@@ -4,6 +4,7 @@
 .vscode
 01
 weights_bak
+*.png
 __pycache__/
 config/__pycache__/
 dataset_loaders/__pycache__/
