@@ -5,8 +5,11 @@
 01
 weights_bak
 *.png
+*.bsub
+errors.npz
 __pycache__/
 config/__pycache__/
 dataset_loaders/__pycache__/
 dataset_loaders/images/__pycache__/
 dataset_loaders/videos/__pycache__/
+job.bsub
