@@ -38,8 +38,8 @@ class CamvidDataset(ThreadedDataset):
        https://github.com/alexgkendall/SegNet-Tutorial/tree/master/CamVid
     '''
     name = 'camvid'
-    non_void_nclasses = 11
-    _void_labels = [11]
+    non_void_nclasses = 6
+    _void_labels = [6] #[6]
 
     # optional arguments
     data_shape = (360, 480, 3)
@@ -47,21 +47,16 @@ class CamvidDataset(ThreadedDataset):
     std = [0.29652068, 0.30514979, 0.30080369]
 
     _cmap = {
-        0: (128, 128, 128),    # sky
-        1: (128, 0, 0),        # building
-        2: (192, 192, 128),    # column_pole
-        3: (128, 64, 128),     # road
-        4: (0, 0, 192),        # sidewalk
-        5: (128, 128, 0),      # Tree
-        6: (192, 128, 128),    # SignSymbol
-        7: (64, 64, 128),      # Fence
-        8: (64, 0, 128),       # Car
-        9: (64, 64, 0),        # Pedestrian
-        10: (0, 128, 192),     # Bicyclist
-        11: (0, 0, 0)}         # Void
-    _mask_labels = {0: 'sky', 1: 'building', 2: 'column_pole', 3: 'road',
-                    4: 'sidewalk', 5: 'tree', 6: 'sign', 7: 'fence', 8: 'car',
-                    9: 'pedestrian', 10: 'byciclist', 11: 'void'}
+        0: (0, 0, 255),        # Building
+        1: (0, 255, 0),        # Tree
+        2: (0, 255, 255),      # Low vegetation
+        3: (255, 255, 0),      # Car
+        4: (255, 0, 0),        # Clutter/background
+        5: (255, 255, 255),    # Impervious surfaces
+        6: (0, 0, 0)           # Void
+    }
+    _mask_labels = {0: 'Building', 1: 'Tree', 2: 'Low_vegetation', 3: 'Car',
+                    4: 'Clutter_background', 5: 'Impervious_surfaces', 6: 'Void'}
 
     _filenames = None
     _prefix_list = None

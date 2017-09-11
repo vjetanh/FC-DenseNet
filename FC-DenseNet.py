@@ -7,11 +7,11 @@ from lasagne.nonlinearities import linear
 
 from layers import BN_ReLU_Conv, TransitionDown, TransitionUp, SoftmaxLayer
 
-
+# camvid: n_classes = 11
 class Network():
     def __init__(self,
                  input_shape=(None, 3, None, None),
-                 n_classes=11,
+                 n_classes=6,
                  n_filters_first_conv=48,
                  n_pool=4,
                  growth_rate=12,

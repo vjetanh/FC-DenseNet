@@ -94,8 +94,8 @@ def test(config_path, weight_path):
 
     # To visualize an image : np.reshape(np.argmax(g(X), axis = 1), (360, 480))
     # with g = theano.function([net.input_var], prediction)
-    plt.imshow(np.reshape(np.argmax(g(X), axis=1), (360, 480)), interpolation='nearest')
-    plt.show()
+    # plt.imshow(np.reshape(np.argmax(g(X), axis=1), (360, 480)), interpolation='nearest')
+    # plt.show()
 
 if __name__ == '__main__':
     config_path = 'config/FC-DenseNet103.py'

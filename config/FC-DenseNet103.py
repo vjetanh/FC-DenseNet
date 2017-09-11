@@ -21,10 +21,11 @@ batch_size = 3
 # Architecture
 # pretrained_model= None # path of the weights of a pretrained network
 
+# camvid: n_classes = 11
 model_path = os.path.join(os.getcwd().split('/config')[0], 'FC-DenseNet.py')
 net = imp.load_source('Net', model_path).Network(
     input_shape=(None, 3, None, None),
-    n_classes=11,
+    n_classes=6,
     n_filters_first_conv=48,
     n_pool=5,
     growth_rate=16,

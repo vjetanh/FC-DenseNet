@@ -21,11 +21,13 @@ from metrics import theano_metrics, crossentropy
 def batch_loop(iterator, f, epoch, phase, history):
     """ Loop on the batches """
 
-    n_batches = iterator.get_n_batches()
+    n_batches = iterator.get_n_batches
     n_imgs = 0.
 
     for i in range(n_batches):
-        X, Y = iterator.next()
+        # X, Y = iterator.next()
+        next_batch = iterator.next()
+        X, Y = next_batch['data'], next_batch['labels']
         batch_size = X.shape[0]
         n_imgs += batch_size
 
@@ -111,7 +113,7 @@ def train(cf):
         start_time_compilation = time.time()
         if key == 'train':
             updates = cf.optimizer(loss, params, learning_rate=lr_shared)
-            train_fn = theano.function([net.input_var, net.target_var], [loss, I, U, acc], updates=updates)
+            train_fn = theano.function([net.input_var, net.target_var], [loss, I, U, acc], mode=theano.Mode(optimizer="fast_compile"), updates=updates)
         else:
             val_fn = theano.function([net.input_var, net.target_var], [loss, I, U, acc])
 
