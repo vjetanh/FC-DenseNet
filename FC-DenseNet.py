@@ -16,7 +16,7 @@ class Network():
                  n_pool=4,
                  growth_rate=12,
                  n_layers_per_block=5,
-                 dropout_p=0.2):
+                 dropout_p=0.3):
         """
         This code implements the Fully Convolutional DenseNet described in https://arxiv.org/abs/1611.09326
         The network consist of a downsampling path, where dense blocks and transition down are applied, followed

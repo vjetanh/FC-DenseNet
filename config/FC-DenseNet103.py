@@ -30,7 +30,7 @@ net = imp.load_source('Net', model_path).Network(
     n_pool=5,
     growth_rate=16,
     n_layers_per_block=[4, 5, 7, 10, 12, 15, 12, 10, 7, 5, 4],
-    dropout_p=0.2)
+    dropout_p=0.3)
 
 ##############################################################################
 
@@ -38,11 +38,11 @@ if __name__ == '__main__':
     # Display a summary with a given shape for the input image
     net2 = imp.load_source('Net', model_path).Network(
         input_shape=(None, 3, 360, 480),
-        n_classes=11,
+        n_classes=6,
         n_filters_first_conv=48,
         n_pool=5,
         growth_rate=16,
         n_layers_per_block=[4, 5, 7, 10, 12, 15, 12, 10, 7, 5, 4],
-        dropout_p=0.2)
+        dropout_p=0.3)
 
     net2.summary()
