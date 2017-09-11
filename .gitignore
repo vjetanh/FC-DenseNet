@@ -1,4 +1,11 @@
 .idea/
 *.pyc
 *.ipynb
-.vscode/
+.vscode
+01
+weights_bak
+__pycache__/
+config/__pycache__/
+dataset_loaders/__pycache__/
+dataset_loaders/images/__pycache__/
+dataset_loaders/videos/__pycache__/
