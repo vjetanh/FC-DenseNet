@@ -13,3 +13,5 @@ dataset_loaders/__pycache__/
 dataset_loaders/images/__pycache__/
 dataset_loaders/videos/__pycache__/
 job.bsub
+*.err
+*.out
