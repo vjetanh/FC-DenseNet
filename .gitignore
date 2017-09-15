@@ -3,7 +3,7 @@
 *.ipynb
 .vscode
 01
-weights_bak
+weights
 *.png
 *.bsub
 errors.npz
@@ -16,3 +16,6 @@ job.bsub
 *.err
 *.out
 exp_*
+weights
+01
+config/cf.py

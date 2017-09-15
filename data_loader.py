@@ -1,7 +1,7 @@
-from dataset_loaders.images.camvid import CamvidDataset
+from dataset_loaders.images.Vaihingen import VaihingenDataset
 from numpy.random import RandomState
 
-def load_data(dataset, train_crop_size=(224, 224), one_hot=False,
+def load_data(dataset, train_crop_size=(300, 300), one_hot=False,
               batch_size=10,
               horizontal_flip=False,
               rng=RandomState(0)):
@@ -9,7 +9,7 @@ def load_data(dataset, train_crop_size=(224, 224), one_hot=False,
     if isinstance(batch_size, int):
         batch_size = [batch_size] * 3
 
-    train_iter = CamvidDataset(which_set='train',
+    train_iter = VaihingenDataset(which_set='train',
                                batch_size=batch_size[0],
                                seq_per_video=0,
                                seq_length=0,
@@ -21,7 +21,7 @@ def load_data(dataset, train_crop_size=(224, 224), one_hot=False,
                                use_threads=True,
                                rng=rng)
 
-    val_iter = CamvidDataset(which_set='val',
+    val_iter = VaihingenDataset(which_set='val',
                              batch_size=batch_size[1],
                              seq_per_video=0,
                              seq_length=0,
@@ -33,7 +33,7 @@ def load_data(dataset, train_crop_size=(224, 224), one_hot=False,
                              use_threads=True,
                              save_to_dir=False)
 
-    test_iter = CamvidDataset(which_set='test',
+    test_iter = VaihingenDataset(which_set='test',
                               batch_size=batch_size[2],
                               seq_per_video=0,
                               seq_length=0,

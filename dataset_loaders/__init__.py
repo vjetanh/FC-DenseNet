@@ -1,6 +1,7 @@
 import os
 from subprocess import check_output, CalledProcessError
 
+from dataset_loaders.images.Vaihingen import VaihingenDataset
 from dataset_loaders.images.camvid import CamvidDataset
 from dataset_loaders.images.cifar10 import Cifar10Dataset
 from dataset_loaders.images.cityscapes import CityscapesDataset
@@ -23,6 +24,7 @@ except CalledProcessError:
     __version__ = -1
 
 __all__ = [
+    "VaihingenDataset",
     "CamvidDataset",
     "Cifar10Dataset",
     "CityscapesDataset",

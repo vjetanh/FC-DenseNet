@@ -8,6 +8,9 @@ from lasagne.layers import get_output
 from data_loader import load_data
 from metrics import numpy_metrics, theano_metrics
 
+from skimage import io
+from matplotlib import pyplot as plt
+
 from PIL import Image
 import matplotlib
 from matplotlib import pyplot as plt
@@ -75,6 +78,13 @@ def test(config_path, weight_path):
         next_batch = iterator.next()
         X, Y = next_batch['data'], next_batch['labels']
         I, U, acc = f(X, Y[:, None, :, :])
+        pred = g(X)
+        pred_img = np.reshape(np.argmax(pred, axis=1), (224, 224))
+        pred_img = pred_img * 51
+
+        io.imshow(pred_img)
+        plt.show()
+
         I_tot += I
         U_tot += U
         acc_tot += acc * batch_size
@@ -97,7 +107,8 @@ def test(config_path, weight_path):
     # plt.imshow(np.reshape(np.argmax(g(X), axis=1), (360, 480)), interpolation='nearest')
     # plt.show()
 
+
 if __name__ == '__main__':
     config_path = 'config/FC-DenseNet103.py'
-    weight_path = 'weights/FC-DenseNet103_weights.npz'
+    weight_path = 'weights/model.npz'
     test(config_path, weight_path)

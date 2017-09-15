@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math
+import sys
 
 with np.load('errors.npz') as data:
     history = data['metrics'][()]
@@ -21,15 +23,21 @@ with np.load('errors.npz') as data:
 
     curr_ep = len(history['train']['loss'])
     print(b)
-    print(curr_ep)
+    print(curr_ep - 1)
 
     epochs = np.arange(curr_ep)
+    n_bins = math.ceil(len(epochs) / 10)
 
+    fig = plt.figure(figsize=(26, 15))
+    fig.suptitle('FC-DenseNet Performance - Best Epoch: {}'.format(b),
+                 fontsize=14, fontweight='bold')
+    plt.subplots_adjust(left=.08, bottom=.08, right=.95,
+                        top=.95, wspace=.2, hspace=.25)
     # acuracy plot =====================
     y_stack = np.row_stack((np.array(train_acuracy), np.array(val_acuracy)))
 
-    fig = plt.figure(figsize=(25, 8))
-    ax1 = fig.add_subplot(111)
+    ax1 = fig.add_subplot(2, 2, (1, 2))
+    ax1.grid(which='both')
 
     ax1.plot(epochs, y_stack[0, :], label='train', color='c', marker='o')
     ax1.plot(epochs, y_stack[1, :], label='val', color='g', marker='o')
@@ -37,18 +45,16 @@ with np.load('errors.npz') as data:
 
     plt.xticks(epochs)
     plt.xlabel('epochs')
-    plt.ylabel('accuracy')
-
-    handles, labels = ax1.get_legend_handles_labels()
-    lgd = ax1.legend(handles, labels, loc='upper center', bbox_to_anchor=(.1, 1))
-
-    plt.savefig('acuracy.png')
+    plt.ylabel(
+        'accuracy (best: {0:.4f})'.format(history['val']['accuracy'][b]))
+    ax1.xaxis.get_major_locator().set_params(nbins=n_bins)
+    ax1.yaxis.get_major_locator().set_params(nbins=20)
 
     # loss plot =====================
     y_stack = np.row_stack((np.array(train_loss), np.array(val_loss)))
 
-    fig = plt.figure(figsize=(25, 8))
-    ax1 = fig.add_subplot(111)
+    ax1 = fig.add_subplot(2, 2, 3)
+    ax1.grid(which='both')
 
     ax1.plot(epochs, y_stack[0, :], label='train', color='c', marker='o')
     ax1.plot(epochs, y_stack[1, :], label='val', color='g', marker='o')
@@ -56,28 +62,33 @@ with np.load('errors.npz') as data:
 
     plt.xticks(epochs)
     plt.xlabel('epochs')
-    plt.ylabel('loss')
+    # plt.ylabel('loss')
+    plt.ylabel(
+        'loss (best: {0:.4f})'.format(history['val']['loss'][b]))
 
-    handles, labels = ax1.get_legend_handles_labels()
-    lgd = ax1.legend(handles, labels, loc='upper center', bbox_to_anchor=(.1, 1))
-
-    plt.savefig('loss.png')
+    ax1.xaxis.get_major_locator().set_params(nbins=n_bins)
 
     # jaccard plot =====================
     y_stack = np.row_stack((np.array(train_jaccard), np.array(val_jaccard)))
 
-    fig = plt.figure(figsize=(25, 8))
-    ax1 = fig.add_subplot(111)
+    ax1 = fig.add_subplot(2, 2, 4)
+    ax1.grid(which='both')
 
     ax1.plot(epochs, y_stack[0, :], label='train', color='c', marker='o')
     ax1.plot(epochs, y_stack[1, :], label='val', color='g', marker='o')
     ax1.legend(loc=2)
+    ax1.xaxis.get_major_locator().set_params(nbins=n_bins)
+    # ax1.yaxis.get_major_locator().set_params(nbins=10)
 
     plt.xticks(epochs)
     plt.xlabel('epochs')
-    plt.ylabel('mean jaccard')
+    # plt.ylabel('mean jaccard')
+    plt.ylabel(
+        'mean jaccard (best: {0:.4f})'.format(history['val']['jaccard'][b]))
 
-    handles, labels = ax1.get_legend_handles_labels()
-    lgd = ax1.legend(handles, labels, loc='upper center', bbox_to_anchor=(.1, 1))
+    ax1.xaxis.get_major_locator().set_params(nbins=n_bins)
+    ax1.yaxis.get_major_locator().set_params(nbins=20)
 
-    plt.savefig('jaccard.png')
+    plt.savefig('plot.png')
+
+    plt.show()
